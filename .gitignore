@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Environment — never commit real API keys
+.env
+.env.*
+!.env.example
+
+# Generated probe reports (contain local run metadata; reproduce, don't commit)
+backend/probe/outputs/
+
+# Local agent workspace (skills/tooling, not project source)
+.qoder/
+
+# Logs
+*.log
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,30 @@
+{
+  "note": "SYNTHETIC offline fixture. Tags below are generated from the dataset's human genre descriptions, not fetched from Qloo. Mock-mode reports are pipeline tests: they are not evidence about Qloo coverage, and their similarity scores are not evidence about the artists.",
+  "search_type": "urn:entity:artist",
+  "generic_tag": "urn:tag:genre:music:popular_music",
+  "generic_artists": [
+    "radiohead",
+    "portishead",
+    "massive-attack",
+    "bjork",
+    "david-bowie",
+    "brian-eno",
+    "aphex-twin",
+    "boards-of-canada",
+    "four-tet",
+    "bonobo",
+    "kendrick-lamar",
+    "anderson-paak",
+    "miles-davis",
+    "john-coltrane",
+    "daft-punk",
+    "fleet-foxes"
+  ],
+  "ambiguous": ["mali"],
+  "no_match": ["sutej-singh"],
+  "search_error": ["taba-chake"],
+  "insights_error": ["dhruv-visvanath"],
+  "insights_empty": ["the-f16s", "parekh-and-singh"],
+  "no_search_tags": ["dhruv-visvanath", "parekh-and-singh"],
+  "sparse": ["komorebi"]
+}

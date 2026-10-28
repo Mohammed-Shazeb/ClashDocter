@@ -1,0 +1,562 @@
+{
+  "version": 1,
+  "name": "ClashDoctor Qloo coverage probe — fixed artist set",
+  "purpose": "Determine empirically whether Qloo returns enough artist resolution and taste-tag coverage for ClashDoctor's similarity and scheduling claims. This file is human-authored input, not Qloo output.",
+  "label_definitions": {
+    "established": "Internationally documented acts with a long catalogue and broad editorial coverage. Selected to span distinct genres and eras.",
+    "emerging": "Independent or regional-language acts whose international catalogue coverage is expected to be thinner; several are well known inside India. 'Emerging' is a hypothesis about data coverage and a description of independent/regional status, not a talent or popularity ranking. No popularity numbers are assumed anywhere in this file."
+  },
+  "human_judgment_note": "Expected groups and expected similar/different pairs below are editorial judgments from public genre descriptions. They are used only as sanity checks. They are not ground truth, and no pair in this file is evidence of shared audience, ticket demand or attendance.",
+  "expected_similar_pairs": [
+    {
+      "a": "radiohead",
+      "b": "portishead",
+      "rationale": "Both UK acts in the alternative/art-rock and trip-hop lineage; overlapping alternative-rock vocabulary is widely documented.",
+      "confidence": "medium"
+    },
+    {
+      "a": "aphex-twin",
+      "b": "boards-of-canada",
+      "rationale": "Both canonical IDM/ambient electronic acts.",
+      "confidence": "high"
+    },
+    {
+      "a": "miles-davis",
+      "b": "john-coltrane",
+      "rationale": "Both canonical jazz figures who recorded together.",
+      "confidence": "high"
+    },
+    {
+      "a": "fleet-foxes",
+      "b": "sufjan-stevens",
+      "rationale": "Both US indie-folk acts.",
+      "confidence": "high"
+    },
+    {
+      "a": "ravi-shankar",
+      "b": "anoushka-shankar",
+      "rationale": "Same Hindustani classical tradition and family lineage.",
+      "confidence": "high"
+    },
+    {
+      "a": "nucleya",
+      "b": "ritviz",
+      "rationale": "Both Indian electronic acts with a dance-floor orientation.",
+      "confidence": "medium"
+    },
+    {
+      "a": "seedhe-maut",
+      "b": "prabh-deep",
+      "rationale": "Both Delhi Hindi hip-hop acts.",
+      "confidence": "medium"
+    },
+    {
+      "a": "agam",
+      "b": "thaikkudam-bridge",
+      "rationale": "Both Indian progressive bands fusing rock with Carnatic/Kerala musical material.",
+      "confidence": "medium"
+    },
+    {
+      "a": "peter-cat-recording-co",
+      "b": "the-f16s",
+      "rationale": "Both Indian independent rock bands.",
+      "confidence": "medium"
+    },
+    {
+      "a": "when-chai-met-toast",
+      "b": "taba-chake",
+      "rationale": "Both Indian indie-folk acts.",
+      "confidence": "medium"
+    }
+  ],
+  "expected_different_pairs": [
+    {
+      "a": "sigur-ros",
+      "b": "nucleya",
+      "rationale": "Icelandic post-rock versus Indian bass/electronic dance music.",
+      "confidence": "high"
+    },
+    {
+      "a": "miles-davis",
+      "b": "seedhe-maut",
+      "rationale": "1950s-70s jazz versus contemporary Hindi hip-hop.",
+      "confidence": "high"
+    },
+    {
+      "a": "ravi-shankar",
+      "b": "daft-punk",
+      "rationale": "Hindustani classical sitar versus French electronic/disco.",
+      "confidence": "high"
+    },
+    {
+      "a": "fleet-foxes",
+      "b": "aphex-twin",
+      "rationale": "Indie folk versus IDM/ambient techno.",
+      "confidence": "high"
+    },
+    {
+      "a": "shreya-devnath",
+      "b": "the-national",
+      "rationale": "Carnatic violin versus US indie rock.",
+      "confidence": "high"
+    },
+    {
+      "a": "kendrick-lamar",
+      "b": "godspeed-you-black-emperor",
+      "rationale": "West Coast hip-hop versus instrumental post-rock.",
+      "confidence": "medium"
+    }
+  ],
+  "artists": [
+    {
+      "id": "radiohead",
+      "name": "Radiohead",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["art rock", "alternative rock", "electronic"],
+      "expected_group": "art_rock_trip_hop",
+      "why_selected": "Long-running art-rock band with documented shifts into electronic music; spans two categories this probe needs to compare."
+    },
+    {
+      "id": "portishead",
+      "name": "Portishead",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["trip hop", "electronic"],
+      "expected_group": "art_rock_trip_hop",
+      "why_selected": "Canonical trip-hop act; expected to overlap Radiohead's alternative vocabulary without being the same genre."
+    },
+    {
+      "id": "massive-attack",
+      "name": "Massive Attack",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["trip hop", "electronic"],
+      "expected_group": "art_rock_trip_hop",
+      "why_selected": "Bristol trip-hop act; a second trip-hop anchor for the group."
+    },
+    {
+      "id": "bjork",
+      "name": "Björk",
+      "label": "established",
+      "origin": "Iceland",
+      "genres": ["art pop", "electronic"],
+      "expected_group": "art_rock_trip_hop",
+      "why_selected": "Art-pop/electronic artist whose genre descriptions overlap the art-rock group."
+    },
+    {
+      "id": "david-bowie",
+      "name": "David Bowie",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["art rock", "glam rock"],
+      "expected_group": "art_rock_trip_hop",
+      "why_selected": "Art-rock reference point across several decades."
+    },
+    {
+      "id": "brian-eno",
+      "name": "Brian Eno",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["ambient", "art rock"],
+      "expected_group": "art_rock_trip_hop",
+      "why_selected": "Deliberately chosen as a bridge between the art-rock and ambient groups; tests how a multi-scene artist is scored."
+    },
+    {
+      "id": "aphex-twin",
+      "name": "Aphex Twin",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["IDM", "ambient techno"],
+      "expected_group": "electronic_beats",
+      "why_selected": "Canonical IDM act and one half of the strongest expected-similar pair."
+    },
+    {
+      "id": "boards-of-canada",
+      "name": "Boards of Canada",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["IDM", "ambient"],
+      "expected_group": "electronic_beats",
+      "why_selected": "Canonical IDM/ambient act; expected to score close to Aphex Twin."
+    },
+    {
+      "id": "four-tet",
+      "name": "Four Tet",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["electronic", "folktronica"],
+      "expected_group": "electronic_beats",
+      "why_selected": "Electronic producer whose folk sampling makes a useful crossover case."
+    },
+    {
+      "id": "bonobo",
+      "name": "Bonobo",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["downtempo", "electronic"],
+      "expected_group": "electronic_beats",
+      "why_selected": "Downtempo electronic act, adjacent to but not identical with IDM."
+    },
+    {
+      "id": "flying-lotus",
+      "name": "Flying Lotus",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["electronic", "hip hop"],
+      "expected_group": "electronic_beats",
+      "why_selected": "LA beat-scene producer; tests an electronic act with hip-hop vocabulary."
+    },
+    {
+      "id": "james-blake",
+      "name": "James Blake",
+      "label": "established",
+      "origin": "United Kingdom",
+      "genres": ["electronic", "R&B"],
+      "expected_group": "electronic_beats",
+      "why_selected": "Post-dubstep/electronic act with soul and R&B tags; a cross-category test."
+    },
+    {
+      "id": "kendrick-lamar",
+      "name": "Kendrick Lamar",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["hip hop", "conscious hip hop"],
+      "expected_group": "hip_hop_soul",
+      "why_selected": "Major hip-hop artist; anchor for the hip-hop group and a clearly-different check against post-rock."
+    },
+    {
+      "id": "anderson-paak",
+      "name": "Anderson .Paak",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["neo soul", "hip hop"],
+      "expected_group": "hip_hop_soul",
+      "why_selected": "Neo-soul/hip-hop act; tests overlap between two adjacent groups."
+    },
+    {
+      "id": "thundercat",
+      "name": "Thundercat",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["funk", "jazz fusion"],
+      "expected_group": "jazz",
+      "why_selected": "Bassist straddling funk, jazz and modern hip-hop production; a deliberate edge case."
+    },
+    {
+      "id": "kamasi-washington",
+      "name": "Kamasi Washington",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["jazz", "spiritual jazz"],
+      "expected_group": "jazz",
+      "why_selected": "Contemporary jazz saxophonist with crossover into hip-hop circles."
+    },
+    {
+      "id": "miles-davis",
+      "name": "Miles Davis",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["jazz"],
+      "expected_group": "jazz",
+      "why_selected": "Canonical jazz trumpeter; one half of an expected-similar and an expected-different pair."
+    },
+    {
+      "id": "john-coltrane",
+      "name": "John Coltrane",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["jazz"],
+      "expected_group": "jazz",
+      "why_selected": "Canonical jazz saxophonist; expected to score close to Miles Davis."
+    },
+    {
+      "id": "nina-simone",
+      "name": "Nina Simone",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["soul", "jazz"],
+      "expected_group": "soul_afro",
+      "why_selected": "Soul/jazz singer; tests a vocal-led profile against instrumental jazz."
+    },
+    {
+      "id": "fela-kuti",
+      "name": "Fela Kuti",
+      "label": "established",
+      "origin": "Nigeria",
+      "genres": ["afrobeat"],
+      "expected_group": "soul_afro",
+      "why_selected": "Afrobeat originator; a non-Western established act with a strong single-genre identity."
+    },
+    {
+      "id": "ravi-shankar",
+      "name": "Ravi Shankar",
+      "label": "established",
+      "origin": "India",
+      "genres": ["Hindustani classical"],
+      "expected_group": "indian_classical",
+      "why_selected": "Internationally documented Hindustani classical sitarist; anchor for the Indian classical group."
+    },
+    {
+      "id": "anoushka-shankar",
+      "name": "Anoushka Shankar",
+      "label": "established",
+      "origin": "India / United Kingdom",
+      "genres": ["Hindustani classical", "world fusion"],
+      "expected_group": "indian_classical",
+      "why_selected": "Hindustani sitarist who also works in fusion; tests same-tradition scoring against Ravi Shankar."
+    },
+    {
+      "id": "sigur-ros",
+      "name": "Sigur Rós",
+      "label": "established",
+      "origin": "Iceland",
+      "genres": ["post-rock", "ambient"],
+      "expected_group": "post_rock",
+      "why_selected": "Post-rock act; used as a clearly-different check against electronic dance."
+    },
+    {
+      "id": "godspeed-you-black-emperor",
+      "name": "Godspeed You! Black Emperor",
+      "label": "established",
+      "origin": "Canada",
+      "genres": ["post-rock"],
+      "expected_group": "post_rock",
+      "why_selected": "Instrumental post-rock collective; expected to pair with Sigur Rós and differ from hip-hop."
+    },
+    {
+      "id": "daft-punk",
+      "name": "Daft Punk",
+      "label": "established",
+      "origin": "France",
+      "genres": ["electronic", "disco"],
+      "expected_group": "electronic_dance",
+      "why_selected": "French electronic/disco duo; a clearly-different check against Hindustani classical."
+    },
+    {
+      "id": "tame-impala",
+      "name": "Tame Impala",
+      "label": "established",
+      "origin": "Australia",
+      "genres": ["psychedelic rock", "indie rock"],
+      "expected_group": "indie_rock",
+      "why_selected": "Psychedelic/indie rock act; overlaps the indie-rock group from a different scene."
+    },
+    {
+      "id": "the-national",
+      "name": "The National",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["indie rock"],
+      "expected_group": "indie_rock",
+      "why_selected": "US indie-rock band; clearly-different check against Carnatic violin."
+    },
+    {
+      "id": "phoebe-bridgers",
+      "name": "Phoebe Bridgers",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["indie folk"],
+      "expected_group": "indie_folk",
+      "why_selected": "Indie-folk singer-songwriter; anchor for the folk group."
+    },
+    {
+      "id": "sufjan-stevens",
+      "name": "Sufjan Stevens",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["indie folk"],
+      "expected_group": "indie_folk",
+      "why_selected": "Indie-folk artist; expected to score close to Fleet Foxes."
+    },
+    {
+      "id": "fleet-foxes",
+      "name": "Fleet Foxes",
+      "label": "established",
+      "origin": "United States",
+      "genres": ["indie folk"],
+      "expected_group": "indie_folk",
+      "why_selected": "Indie-folk band; expected-similar and clearly-different anchor."
+    },
+    {
+      "id": "peter-cat-recording-co",
+      "name": "Peter Cat Recording Co.",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["indie rock", "jazz", "psychedelic"],
+      "expected_group": "indie_rock",
+      "why_selected": "Delhi-based independent band with English-language releases and a genre mix that crosses jazz and rock."
+    },
+    {
+      "id": "the-f16s",
+      "name": "The F16s",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["indie rock", "post-punk"],
+      "expected_group": "indie_rock",
+      "why_selected": "Chennai-based independent rock band."
+    },
+    {
+      "id": "when-chai-met-toast",
+      "name": "When Chai Met Toast",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["indie folk", "pop"],
+      "expected_group": "indie_folk",
+      "why_selected": "Kochi-based independent band singing in English and Malayalam."
+    },
+    {
+      "id": "thaikkudam-bridge",
+      "name": "Thaikkudam Bridge",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["rock", "folk fusion"],
+      "expected_group": "indian_fusion",
+      "why_selected": "Kerala-based band fusing rock with Malayalam folk and classical material."
+    },
+    {
+      "id": "agam",
+      "name": "Agam",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["Carnatic progressive rock"],
+      "expected_group": "indian_fusion",
+      "why_selected": "Bengaluru-based band combining Carnatic music with progressive rock."
+    },
+    {
+      "id": "sutej-singh",
+      "name": "Sutej Singh",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["progressive rock", "instrumental"],
+      "expected_group": "indian_fusion",
+      "why_selected": "Shillong-based guitarist and composer working in instrumental progressive rock."
+    },
+    {
+      "id": "bipul-chettri",
+      "name": "Bipul Chettri",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["Nepali folk", "indie"],
+      "expected_group": "indie_folk",
+      "why_selected": "Darjeeling-based singer-songwriter writing in Nepali."
+    },
+    {
+      "id": "taba-chake",
+      "name": "Taba Chake",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["indie folk"],
+      "expected_group": "indie_folk",
+      "why_selected": "Arunachal Pradesh-based singer-songwriter whose work draws on Nyishi musical material."
+    },
+    {
+      "id": "parekh-and-singh",
+      "name": "Parekh & Singh",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["dream pop", "indie pop"],
+      "expected_group": "indie_rock",
+      "why_selected": "Kolkata-based indie duo with English-language dream-pop releases."
+    },
+    {
+      "id": "komorebi",
+      "name": "Komorebi",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["electronic", "indie"],
+      "expected_group": "electronic_dance",
+      "why_selected": "Delhi-based electronic producer and vocalist."
+    },
+    {
+      "id": "lifafa",
+      "name": "Lifafa",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["electronic", "psychedelic"],
+      "expected_group": "electronic_dance",
+      "why_selected": "Delhi-based solo electronic project with Hindi and English material."
+    },
+    {
+      "id": "dhruv-visvanath",
+      "name": "Dhruv Visvanath",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["singer-songwriter", "indie"],
+      "expected_group": "indie_folk",
+      "why_selected": "India-based singer-songwriter and guitarist."
+    },
+    {
+      "id": "mali",
+      "name": "Mali",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["indie pop", "soul"],
+      "expected_group": "indie_rock",
+      "why_selected": "Chennai-based singer-songwriter (Maalavika Manoj); the stage name is short and a deliberate resolution-ambiguity case."
+    },
+    {
+      "id": "shreya-devnath",
+      "name": "Shreya Devnath",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["Carnatic classical"],
+      "expected_group": "indian_classical",
+      "why_selected": "Chennai-based Carnatic violinist; tests a regional classical tradition against Hindustani classical."
+    },
+    {
+      "id": "seedhe-maut",
+      "name": "Seedhe Maut",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["hip hop"],
+      "expected_group": "indian_hip_hop",
+      "why_selected": "Delhi Hindi hip-hop duo."
+    },
+    {
+      "id": "prabh-deep",
+      "name": "Prabh Deep",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["hip hop"],
+      "expected_group": "indian_hip_hop",
+      "why_selected": "Delhi Punjabi/Hindi hip-hop artist."
+    },
+    {
+      "id": "naezy",
+      "name": "Naezy",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["hip hop"],
+      "expected_group": "indian_hip_hop",
+      "why_selected": "Mumbai Hindi hip-hop artist."
+    },
+    {
+      "id": "nucleya",
+      "name": "Nucleya",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["bass", "electronic"],
+      "expected_group": "electronic_dance",
+      "why_selected": "Indian bass/electronic producer; expected-similar and clearly-different anchor."
+    },
+    {
+      "id": "ritviz",
+      "name": "Ritviz",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["electronic", "pop"],
+      "expected_group": "electronic_dance",
+      "why_selected": "Pune-based electronic producer and singer."
+    },
+    {
+      "id": "the-local-train",
+      "name": "The Local Train",
+      "label": "emerging",
+      "origin": "India",
+      "genres": ["Hindi rock"],
+      "expected_group": "indie_rock",
+      "why_selected": "Delhi-based Hindi rock band."
+    }
+  ]
+}
