@@ -309,11 +309,12 @@ npm test                          # vitest + Testing Library (jsdom)
 All tests mock Qloo responses — they run offline with no API key and never
 make live API calls. Frontend tests mock the API client module. The app-level
 live checks are listed under *Live integration smoke tests*; the standalone
-probe below did complete live Qloo requests on 2026-10-23, but that checklist
-itself has not been run.
+probe below did complete live Qloo requests on 2026-10-23, and a targeted
+3-artist live smoke test ran on 2026-10-28, but the full checklist has not been
+run.
 
-Current status (last run on this machine, 2026-10-23): **276 backend tests
-passed (32 of them the probe's offline suite), 115 frontend tests passed**,
+Current status (last run on this machine, 2026-10-28): **283 backend tests
+passed (32 of them the probe's offline suite), 140 frontend tests passed**,
 `npm run build` clean. Backend suites cover
 import parsing and validation (`test_importer.py`), artist resolution — dedupe,
 caching, per-name failure, rate-limit retry, and ambiguous names producing no
@@ -372,6 +373,34 @@ the whole-app wiring — the clash count always describes the schedule on screen
 Apply re-arms after a brief, an edited act drops a previewed plan, and a stale
 similarity matrix cannot overwrite a newer one (`App.test.jsx`), Qloo tag-label cleanup
 (`tagLabels.test.js`) and the API client (`api.test.js`).
+
+## Deployment
+
+The app is two pieces: a FastAPI backend and a static Vite build. A free-tier
+setup that fits the current code:
+
+| Piece | Host | Notes |
+|-------|------|-------|
+| Backend | Render Web Service (free) | 512 MB; spins down after 15 min idle, so the first request can take ~30–60 s |
+| Frontend | Vercel Hobby (free for personal, non-commercial projects) | Static Vite build served from its CDN |
+
+The repository includes `render.yaml`. On Render, create a Blueprint from the
+repository and set `QLOO_API_KEY` and `CORS_ORIGINS` when prompted (both are
+`sync: false`, so they live only in Render's dashboard). `CORS_ORIGINS` must be
+the frontend's public origin, e.g. `https://clashdoctor.vercel.app`.
+
+On Vercel, import the same repository, set the project root to `frontend`, and
+set `VITE_API_BASE_URL` to the backend's public URL, e.g.
+`https://clashdoctor-api.onrender.com`. The build inlines that value; never put
+a secret in a `VITE_*` variable, because Vite exposes it to the browser.
+
+Local dev needs neither variable: Vite proxies `/api` and `/health` to
+`http://localhost:8000`, and the backend allows `localhost:5173` by default.
+
+Deployment status: **not deployed from this repository.** The configuration is
+prepared and the production build is verified locally, but no public URL exists
+yet. Free-tier terms change; Render sleeps free services when idle, and
+Vercel's Hobby plan is limited to personal, non-commercial projects.
 
 ## API
 
@@ -1151,6 +1180,8 @@ missing data rather than making every category thin.
 | `QLOO_TIMEOUT_SECONDS` | `30` | Per-request timeout |
 | `QLOO_INSIGHTS_TAKE` | `20` | Tags fetched per insights request |
 | `PROFILE_CACHE_TTL_SECONDS` | `3600` | Profile cache lifetime |
+| `CORS_ORIGINS` | `http://localhost:5173,http://127.0.0.1:5173` | Comma-separated browser origins allowed to call the API |
+| `VITE_API_BASE_URL` | *(empty)* | Frontend build-time backend URL; empty means same-origin / Vite proxy. Not a secret |
 | `PLANNER_API_KEY` | *(empty)* | Optional key for the planning endpoint's model path; unset means phrase rules only |
 | `PLANNER_MODEL` | *(empty)* | Optional model name; both this and `PLANNER_API_KEY` must be set to enable the model path |
 | `PLANNER_BASE_URL` | `https://api.openai.com/v1` | Any OpenAI-compatible `/chat/completions` host |

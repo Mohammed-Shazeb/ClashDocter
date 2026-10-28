@@ -18,6 +18,16 @@ QLOO_INSIGHTS_TAKE = int(os.getenv("QLOO_INSIGHTS_TAKE", "20"))
 # In-memory TTL cache lifetime for artist tag profiles (seconds).
 PROFILE_CACHE_TTL_SECONDS = int(os.getenv("PROFILE_CACHE_TTL_SECONDS", "3600"))
 
+# Browser origins allowed to call the API (comma-separated). Local dev defaults;
+# set this to the deployed frontend origin in production.
+CORS_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
+    ).split(",")
+    if origin.strip()
+]
+
 # Demo artists use entity ids prefixed with this and never hit the Qloo API.
 DEMO_ENTITY_PREFIX = "demo:"
 

@@ -281,6 +281,13 @@ body {
   color: var(--ink-3);
 }
 
+/* Stamps hold short labels; this one carries a full mode sentence. */
+.stamp-long {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
 .stamp-ok {
   background: var(--good-tint);
   border-color: var(--good);
@@ -559,7 +566,7 @@ body {
   border: 1px solid var(--rule);
   border-top: none;
   padding: 3px;
-  min-width: 104px;
+  min-width: 86px;
   vertical-align: top;
 }
 
@@ -2149,7 +2156,7 @@ body {
     grid-template-columns: 1fr;
   }
   .analysis-zone {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .panel-sticky {
     position: static;

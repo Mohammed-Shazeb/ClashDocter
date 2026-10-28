@@ -63,7 +63,7 @@ export default function PlanningPanel({
       <div className="planner-head">
         <span className="pane-label">Brief the optimizer in plain English</span>
         {plannerMode && (
-          <span className={`stamp ${plan?.source === 'rules+llm' ? 'stamp-data' : 'stamp-missing'}`}>
+          <span className={`stamp stamp-long ${plan?.source === 'rules+llm' ? 'stamp-data' : 'stamp-missing'}`}>
             {plannerMode}
           </span>
         )}

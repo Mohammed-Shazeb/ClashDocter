@@ -866,15 +866,17 @@ export default function App() {
             index="06"
             title="Lineup"
             aside={
-              similarity
-                ? similarity.mode === 'demo'
+              !similarity
+                ? acts.length
+                  ? 'lineup loaded — similarity unavailable'
+                  : 'empty lineup'
+                : similarity.mode === 'demo'
                   ? 'seeded demo festival'
                   : similarity.mode === 'live'
                     ? 'live Qloo lineup'
                     : similarity.mode === 'unmatched'
                       ? 'imported, no Qloo profiles'
                       : 'mixed lineup'
-                : 'empty lineup'
             }
           />
           <div className="data-actions">
