@@ -101,7 +101,9 @@ body {
 
 .masthead-title {
   font-family: var(--font-display);
-  font-size: var(--text-masthead);
+  font-size: 52px;
+
+  /* font-size: var(--text-masthead); */
   font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.01em;
@@ -2356,6 +2358,23 @@ body {
   .plan-actions .panel-note {
     flex-basis: auto;
   }
+}
+
+/* ---------- intro → dashboard transition ---------- */
+
+@keyframes appFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.app-enter {
+  animation: appFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ---------- reduced motion ---------- */

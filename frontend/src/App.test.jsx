@@ -247,6 +247,7 @@ function planFor(instruction, overrides = {}) {
 beforeEach(() => {
   vi.restoreAllMocks();
   window.localStorage.clear();
+  window.history.replaceState({}, '', '/dashboard');
   api.health.mockResolvedValue({
     status: 'ok',
     app: 'ClashDoctor API',
@@ -586,5 +587,53 @@ describe('App — the working session survives a refresh', () => {
     // late save of the pristine demo would silently defeat the reset.
     await new Promise((resolve) => setTimeout(resolve, 30));
     expect(window.localStorage.getItem(SESSION_KEY)).toBeNull();
+  });
+});
+
+describe('App — intro route and dashboard route', () => {
+  it('shows the intro at / and Get Started navigates to /dashboard', async () => {
+    window.history.replaceState({}, '', '/');
+    render(<App />);
+    expect(screen.getByRole('button', { name: /get started/i })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /The Schedule/i })).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: /get started/i }));
+    await screen.findByRole('heading', { name: /The Schedule/i });
+    expect(window.location.pathname).toBe('/dashboard');
+  });
+
+  it('renders the dashboard directly at /dashboard', async () => {
+    window.history.replaceState({}, '', '/dashboard');
+    render(<App />);
+    await screen.findByRole('heading', { name: /The Schedule/i });
+    expect(screen.queryByRole('button', { name: /get started/i })).not.toBeInTheDocument();
+  });
+
+  it('returns to the intro when the browser goes back from /dashboard', async () => {
+    window.history.replaceState({}, '', '/');
+    render(<App />);
+    await userEvent.click(screen.getByRole('button', { name: /get started/i }));
+    await screen.findByRole('heading', { name: /The Schedule/i });
+    expect(window.location.pathname).toBe('/dashboard');
+
+    window.history.back();
+    expect(await screen.findByRole('button', { name: /get started/i })).toBeInTheDocument();
+    expect(window.location.pathname).toBe('/');
+  });
+
+  it('redirects unknown paths to the intro at /', async () => {
+    window.history.replaceState({}, '', '/somewhere-else');
+    render(<App />);
+    expect(await screen.findByRole('button', { name: /get started/i })).toBeInTheDocument();
+    expect(window.location.pathname).toBe('/');
+  });
+
+  it('still loads demo data behind the intro', async () => {
+    window.history.replaceState({}, '', '/');
+    render(<App />);
+    await waitFor(() => expect(api.health).toHaveBeenCalled());
+    await userEvent.click(screen.getByRole('button', { name: /get started/i }));
+    await screen.findByRole('heading', { name: /The Schedule/i });
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });

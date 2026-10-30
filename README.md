@@ -1,9 +1,9 @@
 # ClashDoctor
 
 ClashDoctor helps music festival organizers reduce scheduling conflicts between
-artists likely to appeal to similar audiences. It uses **Qloo tag similarity as a
-proxy for taste affinity** — an *estimate*, never a claim of verified audience
-overlap, shared-fan percentages, or attendance forecasts.
+artists whose **estimated taste-tag similarity** is high. It uses **Qloo tag
+similarity as a proxy for taste affinity** — an *estimate*, never a claim of
+verified audience overlap, shared-fan percentages, or attendance forecasts.
 
 Built for the Qloo Agentic Hackathon — "Agents, but with taste."
 
@@ -68,9 +68,10 @@ Built for the Qloo Agentic Hackathon — "Agents, but with taste."
 - Every proposal is validated against the hard constraints before it can be
   applied, and the frontend re-checks it before writing it to the schedule
 - **Explicit demo/live modes** — without a key the app runs on a clearly
-  labelled seeded demo dataset and the UI says so; with `QLOO_API_KEY` set, the
-  banner switches to live mode and real Qloo data flows through search,
-  similarity, clash analysis, and optimization
+  labelled seeded demo dataset: a deterministic, curated set of **fictional**
+  artists with hand-authored taste profiles, not live Qloo output. With
+  `QLOO_API_KEY` set, the banner switches to live mode and real Qloo data flows
+  through search, similarity, clash analysis, and optimization
 
 ## Disclaimer (read me)
 
@@ -112,7 +113,7 @@ which one is in play:
 
 | Source | Label in the UI | What it means |
 |--------|-----------------|---------------|
-| `demo` | `DEMO MODE` / mode `demo` | Seeded fictional artists with hand-written tag sets. No API key needed; clearly marked so nobody mistakes it for real data. |
+| `demo` | `Demo mode — no API key` / `analysis: curated demo dataset` | Deterministic curated dataset of **fictional** artists with hand-authored tag sets. No API key needed, and clearly marked so nobody mistakes it for live Qloo output. |
 | `qloo-insights` | mode `live` | Taste tags returned by Qloo `/v2/insights` for a confirmed entity id. Primary source. |
 | `qloo-search` | mode `live`, per-artist note | Tags embedded in Qloo `/search` results, used only when `/v2/insights` yields nothing relevant. Still real Qloo data; the note says which fallback was used. |
 | `unmatched` | mode `unmatched`, `no profile` stamp | Imported name with no confirmed Qloo entity, or an entity whose profiles are empty / whose fetch failed. **Absence of data, never zero similarity.** |
@@ -255,9 +256,11 @@ For live Qloo data, put a valid key in `backend/.env`:
 QLOO_API_KEY=your_key_here
 ```
 
-**Without a key the app still runs** on the seeded demo dataset and labels
-itself "DEMO MODE". Live Qloo endpoints return a clear configuration error
-until the key is added.
+**Without a key the app still runs** on the seeded demo dataset — a
+deterministic, curated set of fictional artists with hand-authored taste
+profiles, not live Qloo output — and the banner labels it `Demo mode — no API
+key` alongside `analysis: curated demo dataset`. Live Qloo endpoints return a
+clear configuration error until the key is added.
 
 The plain-English planner works **without** any language model: it reads your
 brief with a documented table of phrase rules. If you want it to also catch
@@ -309,13 +312,13 @@ npm test                          # vitest + Testing Library (jsdom)
 All tests mock Qloo responses — they run offline with no API key and never
 make live API calls. Frontend tests mock the API client module. The app-level
 live checks are listed under *Live integration smoke tests*; the standalone
-probe below did complete live Qloo requests on 2026-10-23, and a targeted
-3-artist live smoke test ran on 2026-10-28, but the full checklist has not been
-run.
+probes below did complete live Qloo requests on 2026-10-23 and 2026-10-28 (the
+second: 30 artists, 66/66 requests), and a targeted 3-artist live smoke test ran
+on 2026-10-28, but the full checklist has not been run.
 
-Current status (last run on this machine, 2026-10-28): **283 backend tests
-passed (32 of them the probe's offline suite), 140 frontend tests passed**,
-`npm run build` clean. Backend suites cover
+Current status (last run on this machine, 2026-10-28): **322 backend tests
+passed (71 of them the two offline probe suites: 32 v1 + 39 v2), 140 frontend
+tests passed**, `npm run build` clean. Backend suites cover
 import parsing and validation (`test_importer.py`), artist resolution — dedupe,
 caching, per-name failure, rate-limit retry, and ambiguous names producing no
 selected entity (`test_qloo.py`, `test_api.py`), missing-data handling and the
@@ -388,6 +391,12 @@ The repository includes `render.yaml`. On Render, create a Blueprint from the
 repository and set `QLOO_API_KEY` and `CORS_ORIGINS` when prompted (both are
 `sync: false`, so they live only in Render's dashboard). `CORS_ORIGINS` must be
 the frontend's public origin, e.g. `https://clashdoctor.vercel.app`.
+
+`render.yaml` deliberately does **not** set `QLOO_INSIGHTS_TAKE`, so a deployed
+backend runs at the shipped default of `20`. If you want the depth this README
+recommends for live use, add `QLOO_INSIGHTS_TAKE=50` as a Render environment
+variable yourself — see *Live Qloo probe v2* for the evidence behind that number
+and for why the shipped default was left alone.
 
 On Vercel, import the same repository, set the project root to `frontend`, and
 set `VITE_API_BASE_URL` to the backend's public URL, e.g.
@@ -472,9 +481,10 @@ Big Wolf (Building)    Tent    21:00    22:00
 
 Start both servers (see *Setup*), open `http://localhost:5173`, and keep the DevTools
 network tab in view. Nothing below needs a credential, and every figure here was read
-off this machine with no `QLOO_API_KEY` set. The seeded bill is **fictional**
-(`demo:` entity ids, hand-written tag profiles) and the UI stamps it `DEMO MODE`:
-these are not live Qloo results.
+off this machine with no `QLOO_API_KEY` set. The seeded bill is a
+**deterministic, curated, fictional** dataset (`demo:` entity ids, hand-authored
+tag profiles) and the banner stamps it `Demo mode — no API key` with
+`analysis: curated demo dataset`: these are not live Qloo results.
 
 1. **Load the lineup.** The app boots straight into *Qloo Fest 2026* — 20 acts, 4
    stages, 6 slots. **02 The Schedule** header reads `12 clashes`: twelve pairs of
@@ -560,9 +570,10 @@ Qloo entirely — see *Tests* below.
 ## Live integration smoke tests
 
 **Neither checklist was executed here.** A temporary `QLOO_API_KEY` was used for
-the standalone probe, which called Qloo's search and insights endpoints through
-the production client (95/95 requests succeeded), but the app endpoints, browser
-flow and product path below were not re-run against live data. No
+the standalone probes, which called Qloo's search and insights endpoints through
+the production client (95/95 requests succeeded on 2026-10-23; 66/66 on
+2026-10-28), but the app endpoints, browser flow and product path below were not
+re-run against live data. No
 `PLANNER_API_KEY` is configured, so the provider checklist is untested. Keys go
 in `backend/.env` only: never in a chat message, an issue, a URL, a shell
 history you share, or a screenshot. The probe key was pasted into a chat during
@@ -577,18 +588,19 @@ restart, and the three in-process caches restart with it.
 QLOO_API_KEY=<rotated key from the Qloo dashboard>
 QLOO_BASE_URL=https://hackathon.api.qloo.com
 QLOO_TIMEOUT_SECONDS=30
-QLOO_INSIGHTS_TAKE=20
+QLOO_INSIGHTS_TAKE=50
 PROFILE_CACHE_TTL_SECONDS=3600
 ```
 
-`QLOO_INSIGHTS_TAKE=20` is the production default; the saved probe artifact
-(`probe/outputs/live/report.json`, `take=20`) measured it truncating profiles:
-34 of 44 usable artists carried genre tags, and only 6 of 15 emerging artists
-did. An earlier `take=50` run reported more genre-bearing profiles and
-confidence-passing pairs, so the value materially changes coverage; that artifact
-was later overwritten, so its figures are not reproducible from the files now
-saved. The endpoint accepted 30 and 50 on 2026-10-23 and rejected 100 with HTTP
-400, so do not assume a higher value will be accepted.
+`QLOO_INSIGHTS_TAKE=50` is the recommended live setting; the shipped default is
+20. The saved v1 probe artifact (`probe/outputs/live/report.json`, `take=20`)
+measured 20 truncating profiles: 34 of 44 usable artists carried genre tags, and
+only 6 of 15 emerging artists did. The 2026-10-28 v2 probe used take=50, and its
+depth subset measured what 20 loses: 2 of 6 sampled artists lost every genre tag,
+one selected pair became unscorable and another fell from 0.756 to 0.000 (see
+*Live Qloo probe v2* below). The endpoint accepted 30 and 50 on 2026-10-23 and 50
+on 30/30 insights calls on 2026-10-28, and rejected 100 with HTTP 400, so do not
+assume a higher value will be accepted.
 
 1. **Which mode is live.** `curl -s http://127.0.0.1:8000/health` must report
    `qloo_configured: true` and `data_mode: "live + demo"`. If it still says
@@ -915,6 +927,88 @@ panel in view; before making audience or attendance claims, measure real overlap
 or run a user study. The temporary key used for the live probe was pasted into
 chat and should be rotated.
 
+## Live Qloo probe v2 (30 established artists, 2026-10-28)
+
+`backend/probe/v2.py` reuses the shipped pipeline — `select_best_match` for
+resolution, `fetch_profile` for insights → search-fallback → missing behavior,
+and `app.similarity` for every score, confidence flag and coverage count — on a
+fixed set of 30 established artists
+(`backend/probe/datasets/probe_v2_30.json`; the duplicate Radiohead in the
+supplied list was replaced with Fela Kuti). It is live-only, requests the largest
+`take` documented as accepted (50), uses no pagination, and caches successful raw
+responses on disk so a rerun does not repeat paid calls. It changes no scoring
+rule and has no mock mode.
+
+```bash
+cd backend
+.venv/Scripts/python.exe -m probe.v2 --live --take 50 --depth-take 20 --depth-pairs 3
+```
+
+Artifacts are timestamped and git-ignored under
+`backend/probe/outputs/live-v2/`: `20261028T172843Z-qloo-probe-v2.json` and
+`20261028T172843Z-qloo-probe-v2.md`. The Markdown report carries the complete
+435-pair matrix, the predeclared sanity checks, the depth subset and the
+diagnosis.
+
+**Observed.** 30/30 names matched, 0 ambiguous, 0 not found, 0 API errors; all 30
+profiles came from `/v2/insights` with no search-tag fallback. 66/66 requests
+succeeded (30 searches, 30 take=50 insights, 6 take=20 depth insights) with 0
+retries. 28 profiles are `ok` and 2 are `sparse`: Drake has 7 genre tags and
+nothing else; Rosalía has 1 genre and 1 other-music tag. Genre coverage is 30/30
+artists; audience is 10/30, style 27/30 and other music 8/30.
+
+**Matrix.** 435/435 pairs scored, 0 excluded for missing data; 281 (64.6%) score
+exactly 0, and there are 117 distinct scores. All pairs: min 0, q1 0, median 0,
+q3 0.0372, mean 0.0515, p90 0.1637, max 0.8462. Nonzero pairs (154): 0.013 to
+0.8462, median 0.0867, p90 0.3667. 315 pairs pass the confidence rules and 120
+are low confidence; all 435 are genre-backed. 154 pairs share at least one tag
+and 281 share none. Six tags are generic in this 30-act lineup: `instrumental`
+(10/30 artists, 45 pairs), `funk` (9/30, 36), and `ambient`, `electronic`,
+`psychedelic`, `trap` (8/30, 28 each). The top 10 pairs have a mean generic share
+of 39.5%; 3 of the top 10 rest entirely on generic tags, and 36 scored pairs are
+supported only by generic tags. Top pairs: Billie Eilish/Rosalía 0.8462 (one
+shared tag, `trap`, generic, low confidence), BTS/BLACKPINK 0.756 (4 shared tags,
+not low), Kendrick Lamar/Frank Ocean 0.75 (low), Miles Davis/John Coltrane
+0.6785 (19 shared tags), Kendrick Lamar/Tyler the Creator 0.6111.
+
+**Sanity checks.** All five predeclared verdicts read as supported under the
+report's qualified zero-versus-nonzero reading; these are editorial checks, not
+ground truth.
+
+| Pair | Expectation | Taste | Genre | Confidence | Shared evidence |
+|---|---|---|---|---|---|
+| Radiohead / Aphex Twin | similar | 0.131 | 0.1667 | passes | 6 genre tags (ambient, electronic, experimental, instrumental, psychedelic, shoegaze); style compared, 0 shared |
+| Radiohead / Bad Bunny | lower | 0.0 | 0.0 | passes | none in genre, audience or style |
+| Daft Punk / The Chemical Brothers | similar | 0.2507 | 0.3191 | passes | 15 genre tags |
+| Kendrick Lamar / Drake | similar | 0.5556 | 0.5556 | low | 5 genre tags; style skipped (one side only) |
+| Metallica / Nirvana | similar | 0.0943 | 0.12 | passes | hard_rock, rock, soundtrack; style compared, 0 shared |
+
+**Depth.** The depth subset re-fetched three artist-disjoint pairs at take=20
+(the shipped default): the top-ranked pair became unscorable because Billie
+Eilish and Rosalía both lost every genre tag; BTS/BLACKPINK fell from 0.756 to
+0.0 because BTS lost all genre tags; Aphex Twin/A.R. Rahman stayed 0.0 and became
+low confidence. One of the two comparable pairs moved materially; max |delta|
+0.756. This is a small, deliberately selected subset, not a lineup-wide
+measurement.
+
+**Diagnosis.** The zero-heavy matrix is real-data sparsity, not a pipeline
+defect: all 281 zeros had genre tags on both sides and no shared tag in any
+compared category, and no namespace mismatch, missing profile or provider failure
+occurred. The scoring rules are not too restrictive for the data returned — the
+returned vocabularies are largely disjoint. Generic-only pairs that rank highest
+are already labelled low confidence by the production rule.
+
+**Recommendation.** No scoring, confidence or canonicalization change is
+justified by this run. The one actionable finding is depth: `take=20` can drop
+all genre tags for an artist, and the depth sample lost a top pair entirely and
+turned a 0.756 pair into 0.0. `take=50` was accepted on every insights call and is
+the largest depth documented as accepted. Because the depth sample is three
+selected pairs, this is a recommendation, not a measured lineup-wide improvement:
+set `QLOO_INSIGHTS_TAKE=50` for a live deployment, and compare both depths on
+more artists before changing the shipped default. Live similarity remains an
+evidence-labelled triage signal, not a ranking or an audience predictor; the demo
+path is unchanged.
+
 ## Limitations
 
 - **Similarity is a proxy, not a measurement.** Tag overlap says two artists sit
@@ -924,7 +1018,9 @@ chat and should be rotated.
   small `take` of tags per artist, so a thin profile can look dissimilar simply
   because it is shallow. Coverage is reported alongside the scores for that
   reason. In the saved take=20 live probe, 34 of 44 usable artists carried genre
-  tags — 28 of 29 established but only 6 of 15 emerging artists.
+  tags — 28 of 29 established but only 6 of 15 emerging artists. In the
+  2026-10-28 v2 run at take=50, all 30 artists carried genre tags, but 64.6% of
+  pairs still shared no tag at all.
 - **Confidence flags are thresholds, not calibrated probabilities.** The
   single-shared-tag, all-broad, thin-category and small-union rules mark
   comparisons whose evidence is weak; they do not estimate the chance that a
@@ -965,12 +1061,12 @@ chat and should be rotated.
 - **Named locks only.** A brief can lock an act the lineup already contains, by
   name or by the "headliner" role that marks the demo headliners fixed. It cannot
   express "everything on Stage B stays put": there is no per-artist-group lock.
-- **No end-to-end live verification was performed here.** The standalone probe
+- **No end-to-end live verification was performed here.** The standalone probes
   did complete live Qloo search and insights requests on 2026-10-23 (95/95
-  succeeded), but the app's HTTP endpoints, browser flow and live product path
-  were not exercised, and no `PLANNER_API_KEY` is configured, so no real
-  language-model call has been made. The live checklists above remain the
-  procedure for a rotated key.
+  succeeded) and 2026-10-28 (66/66 succeeded), but the app's HTTP endpoints,
+  browser flow and live product path were not exercised, and no
+  `PLANNER_API_KEY` is configured, so no real language-model call has been made.
+  The live checklists above remain the procedure for a rotated key.
 
 ## Scoring
 
@@ -1178,7 +1274,7 @@ missing data rather than making every category thin.
 | `QLOO_API_KEY` | *(empty)* | Qloo API key. Never committed, never sent to the frontend. |
 | `QLOO_BASE_URL` | `https://hackathon.api.qloo.com` | API host |
 | `QLOO_TIMEOUT_SECONDS` | `30` | Per-request timeout |
-| `QLOO_INSIGHTS_TAKE` | `20` | Tags fetched per insights request |
+| `QLOO_INSIGHTS_TAKE` | `20` | Tags fetched per insights request. 50 is recommended for live use: the v2 probe measured take=20 dropping genre tags for sampled artists (see *Live Qloo probe v2*). |
 | `PROFILE_CACHE_TTL_SECONDS` | `3600` | Profile cache lifetime |
 | `CORS_ORIGINS` | `http://localhost:5173,http://127.0.0.1:5173` | Comma-separated browser origins allowed to call the API |
 | `VITE_API_BASE_URL` | *(empty)* | Frontend build-time backend URL; empty means same-origin / Vite proxy. Not a secret |

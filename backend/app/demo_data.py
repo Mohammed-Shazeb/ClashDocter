@@ -1,6 +1,7 @@
-"""Seeded demo festival: fictional acts, hand-written taste profiles, and
-deliberately seeded schedule clashes. Used when QLOO_API_KEY is missing so the
-app stays fully demonstrable offline. Demo data is clearly labelled as such.
+"""Seeded demo festival: a deterministic, curated dataset of fictional acts with
+hand-authored taste profiles and deliberately seeded schedule clashes. Used when
+QLOO_API_KEY is missing so the app stays fully demonstrable offline. It is not
+live Qloo output, and the UI labels it as demo data wherever it is shown.
 """
 
 # Template for a fresh user-built festival: same grid as the demo, no acts.
@@ -28,7 +29,7 @@ FESTIVAL_TEMPLATE = {
 DEMO_FESTIVAL = {
     "name": "Qloo Fest 2026",
     "mode": "demo",
-    "note": "Seeded demo dataset — fictional artists, no live Qloo data.",
+    "note": "Seeded demo dataset — deterministic and curated: fictional artists with hand-authored taste profiles, not live Qloo output.",
     "stages": [
         {"id": "main", "name": "Main Stage"},
         {"id": "pulse", "name": "Pulse Stage"},

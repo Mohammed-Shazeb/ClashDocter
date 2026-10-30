@@ -1,0 +1,260 @@
+{
+  "version": 2,
+  "name": "ClashDoctor live Qloo probe v2 — 30 established artists",
+  "purpose": "Measure what real Qloo data supports for a fixed, diverse set of 30 established artists before changing any scoring logic. This file is human-authored input, not Qloo output.",
+  "notes": {
+    "fixed_list": "The supplied list contained Radiohead twice. The duplicate was replaced with Fela Kuti as instructed; all other names are the supplied ones.",
+    "labels": "All 30 artists are established, internationally documented acts. This probe makes no established-versus-emerging comparison.",
+    "take_depth": "The documented /v2/insights endpoint accepted take=30 and take=50 on 2026-10-23 and rejected take=100 with HTTP 400. No pagination parameter is documented or implemented in app.qloo.QlooClient. This probe therefore uses take=50 as the largest documented-accepted depth and does not invent pagination.",
+    "human_judgment": "Scenes and sanity checks are editorial descriptions from public genre information. They are hypotheses for inspection, not ground truth and not evidence of shared audience."
+  },
+  "artists": [
+    {
+      "id": "radiohead",
+      "name": "Radiohead",
+      "query": "Radiohead",
+      "scene": "alternative rock / art rock",
+      "why_selected": "Global art-rock reference with electronic and experimental vocabulary; anchors two sanity checks."
+    },
+    {
+      "id": "aphex-twin",
+      "name": "Aphex Twin",
+      "query": "Aphex Twin",
+      "scene": "electronic / IDM / ambient",
+      "why_selected": "Canonical electronic act paired with Radiohead in the sanity checks."
+    },
+    {
+      "id": "bjork",
+      "name": "Björk",
+      "query": "Björk",
+      "scene": "art pop / electronic",
+      "why_selected": "Art-pop and electronic crossover outside the US/UK rock mainstream."
+    },
+    {
+      "id": "massive-attack",
+      "name": "Massive Attack",
+      "query": "Massive Attack",
+      "scene": "trip-hop / electronic",
+      "why_selected": "Bristol trip-hop reference; overlaps Portishead's scene."
+    },
+    {
+      "id": "portishead",
+      "name": "Portishead",
+      "query": "Portishead",
+      "scene": "trip-hop / art rock",
+      "why_selected": "Second trip-hop reference for within-scene comparison."
+    },
+    {
+      "id": "the-chemical-brothers",
+      "name": "The Chemical Brothers",
+      "query": "The Chemical Brothers",
+      "scene": "electronic / big beat",
+      "why_selected": "Electronic duo paired with Daft Punk in the sanity checks."
+    },
+    {
+      "id": "daft-punk",
+      "name": "Daft Punk",
+      "query": "Daft Punk",
+      "scene": "electronic / French house",
+      "why_selected": "Electronic duo paired with The Chemical Brothers in the sanity checks."
+    },
+    {
+      "id": "kendrick-lamar",
+      "name": "Kendrick Lamar",
+      "query": "Kendrick Lamar",
+      "scene": "hip-hop",
+      "why_selected": "Contemporary hip-hop reference paired with Drake in the sanity checks."
+    },
+    {
+      "id": "drake",
+      "name": "Drake",
+      "query": "Drake",
+      "scene": "hip-hop / R&B",
+      "why_selected": "Hip-hop and R&B crossover paired with Kendrick Lamar in the sanity checks."
+    },
+    {
+      "id": "tyler-the-creator",
+      "name": "Tyler the Creator",
+      "query": "Tyler, the Creator",
+      "scene": "hip-hop / alternative",
+      "why_selected": "Alternative hip-hop voice that broadens the hip-hop sample beyond one pair."
+    },
+    {
+      "id": "frank-ocean",
+      "name": "Frank Ocean",
+      "query": "Frank Ocean",
+      "scene": "R&B / alternative",
+      "why_selected": "R&B and alternative crossover for genre-adjacency checks."
+    },
+    {
+      "id": "sza",
+      "name": "SZA",
+      "query": "SZA",
+      "scene": "R&B / neo-soul",
+      "why_selected": "Contemporary R&B reference adjacent to Frank Ocean."
+    },
+    {
+      "id": "beyonce",
+      "name": "Beyoncé",
+      "query": "Beyoncé",
+      "scene": "pop / R&B",
+      "why_selected": "Global pop and R&B reference."
+    },
+    {
+      "id": "taylor-swift",
+      "name": "Taylor Swift",
+      "query": "Taylor Swift",
+      "scene": "pop / singer-songwriter",
+      "why_selected": "Global pop reference with a singer-songwriter catalogue."
+    },
+    {
+      "id": "billie-eilish",
+      "name": "Billie Eilish",
+      "query": "Billie Eilish",
+      "scene": "pop / alternative",
+      "why_selected": "Younger pop profile with alternative production vocabulary."
+    },
+    {
+      "id": "bad-bunny",
+      "name": "Bad Bunny",
+      "query": "Bad Bunny",
+      "scene": "Latin trap / reggaeton",
+      "why_selected": "Latin reference used in the low-affinity sanity check with Radiohead."
+    },
+    {
+      "id": "rosalia",
+      "name": "Rosalía",
+      "query": "Rosalía",
+      "scene": "Latin / flamenco pop",
+      "why_selected": "Second Latin reference spanning flamenco and pop."
+    },
+    {
+      "id": "bts",
+      "name": "BTS",
+      "query": "BTS",
+      "scene": "K-pop",
+      "why_selected": "K-pop reference outside the Western pop sample."
+    },
+    {
+      "id": "blackpink",
+      "name": "BLACKPINK",
+      "query": "BLACKPINK",
+      "scene": "K-pop",
+      "why_selected": "Second K-pop reference for within-scene comparison."
+    },
+    {
+      "id": "metallica",
+      "name": "Metallica",
+      "query": "Metallica",
+      "scene": "metal",
+      "why_selected": "Metal reference paired with Nirvana in the sanity checks."
+    },
+    {
+      "id": "fela-kuti",
+      "name": "Fela Kuti",
+      "query": "Fela Kuti",
+      "scene": "Afrobeat",
+      "why_selected": "Afrobeat reference replacing the duplicated Radiohead entry."
+    },
+    {
+      "id": "nirvana",
+      "name": "Nirvana",
+      "query": "Nirvana",
+      "scene": "grunge / rock",
+      "why_selected": "Grunge and rock reference paired with Metallica in the sanity checks."
+    },
+    {
+      "id": "the-beatles",
+      "name": "The Beatles",
+      "query": "The Beatles",
+      "scene": "rock / pop",
+      "why_selected": "Canonical legacy rock and pop act."
+    },
+    {
+      "id": "fleetwood-mac",
+      "name": "Fleetwood Mac",
+      "query": "Fleetwood Mac",
+      "scene": "rock / pop",
+      "why_selected": "Second legacy rock and pop reference."
+    },
+    {
+      "id": "david-bowie",
+      "name": "David Bowie",
+      "query": "David Bowie",
+      "scene": "art rock / pop",
+      "why_selected": "Legacy art-rock and pop reference."
+    },
+    {
+      "id": "miles-davis",
+      "name": "Miles Davis",
+      "query": "Miles Davis",
+      "scene": "jazz",
+      "why_selected": "Jazz reference with a long catalogue."
+    },
+    {
+      "id": "john-coltrane",
+      "name": "John Coltrane",
+      "query": "John Coltrane",
+      "scene": "jazz",
+      "why_selected": "Second jazz reference for within-scene comparison."
+    },
+    {
+      "id": "ar-rahman",
+      "name": "A.R. Rahman",
+      "query": "A.R. Rahman",
+      "scene": "Indian film music / fusion",
+      "why_selected": "Indian film-music and fusion reference with global reach."
+    },
+    {
+      "id": "anirudh-ravichander",
+      "name": "Anirudh Ravichander",
+      "query": "Anirudh Ravichander",
+      "scene": "Indian film music / Tamil",
+      "why_selected": "Tamil film-music reference in the same broad scene as A.R. Rahman."
+    },
+    {
+      "id": "shreya-ghoshal",
+      "name": "Shreya Ghoshal",
+      "query": "Shreya Ghoshal",
+      "scene": "Indian playback / film music",
+      "why_selected": "Indian playback singer; tests vocal-led film-music coverage."
+    }
+  ],
+  "sanity_checks": [
+    {
+      "id": "radiohead-aphex-twin",
+      "a": "radiohead",
+      "b": "aphex-twin",
+      "expectation": "similar",
+      "hypothesis": "If the profiles carry the expected vocabulary, these acts should show a plausible electronic/experimental affinity."
+    },
+    {
+      "id": "radiohead-bad-bunny",
+      "a": "radiohead",
+      "b": "bad-bunny",
+      "expectation": "lower",
+      "hypothesis": "This cross-scene pair may score lower than the similar checks; the evidence should be inspected rather than assumed."
+    },
+    {
+      "id": "daft-punk-the-chemical-brothers",
+      "a": "daft-punk",
+      "b": "the-chemical-brothers",
+      "expectation": "similar",
+      "hypothesis": "Both are electronic duos; a shared electronic/dance vocabulary is plausible if Qloo returns it."
+    },
+    {
+      "id": "kendrick-lamar-drake",
+      "a": "kendrick-lamar",
+      "b": "drake",
+      "expectation": "similar",
+      "hypothesis": "Both are contemporary hip-hop stars; overlapping hip-hop vocabulary is plausible, but this is not a claim of audience overlap."
+    },
+    {
+      "id": "metallica-nirvana",
+      "a": "metallica",
+      "b": "nirvana",
+      "expectation": "similar",
+      "hypothesis": "Both carry rock and metal lineage; shared rock vocabulary would be interpretable evidence, not proof of fan overlap."
+    }
+  ]
+}

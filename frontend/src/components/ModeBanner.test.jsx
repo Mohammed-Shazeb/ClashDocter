@@ -11,7 +11,12 @@ describe('ModeBanner', () => {
       />,
     );
     expect(screen.getByText('Demo mode — no API key')).toBeInTheDocument();
-    expect(screen.getByText('analysis: demo data')).toBeInTheDocument();
+    const demoStamp = screen.getByText('analysis: curated demo dataset');
+    expect(demoStamp).toBeInTheDocument();
+    expect(demoStamp).toHaveAttribute(
+      'title',
+      'Deterministic curated dataset: fictional artists with hand-authored taste profiles. Not live Qloo output.',
+    );
     expect(screen.getByText('v0.1.0')).toBeInTheDocument();
   });
 

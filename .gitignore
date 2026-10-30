@@ -29,3 +29,9 @@ dist/
 Thumbs.db
 .idea/
 .vscode/
+
+# Video workspace: keep only the finished demo cut; frames, probes, stems and
+# render intermediates stay local. The raw screen recording is kept outside
+# the repo (it exceeds GitHub's per-file limit).
+video/*
+!video/final_mixed.mp4

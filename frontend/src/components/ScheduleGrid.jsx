@@ -45,7 +45,7 @@ export default function ScheduleGrid({
         <p className="grid-note">
           {applied
             ? 'Applied schedule — clash cells show remaining overlaps.'
-            : 'Draft schedule — clash cells are simultaneous acts with similar audiences.'}
+            : 'Draft schedule — clash cells are simultaneous acts with similar estimated taste tags, not measured audience overlap.'}
         </p>
       </div>
 
@@ -129,7 +129,7 @@ function GridView({ stages, slots, acts, clashes, profiles, moved }) {
                 const clashTitles = cellActs.flatMap((act) =>
                   (clashByActId[act.id] ?? []).map((c) => {
                     const other = c.a_id === act.id ? c.b_name : c.a_name;
-                    return `${act.name} vs ${other} (similarity ${c.similarity.toFixed(2)})`;
+                    return `${act.name} vs ${other} (estimated taste similarity ${c.similarity.toFixed(2)})`;
                   }),
                 );
                 const cellTitle = collision

@@ -12,6 +12,12 @@ import ClashSummary from './components/ClashSummary.jsx';
 import OptimizePanel from './components/OptimizePanel.jsx';
 import PlanningPanel from './components/PlanningPanel.jsx';
 import SimilarityError from './components/SimilarityError.jsx';
+import AsciiConcertIntro from './components/AsciiConcertIntro.jsx';
+
+function pathnameToRoute(pathname) {
+  const clean = (pathname || '/').replace(/\/+$/, '') || '/';
+  return clean === '/dashboard' ? 'dashboard' : 'intro';
+}
 
 function SectionTitle({ index, title, aside }) {
   return (
@@ -61,6 +67,28 @@ export default function App() {
   const [scheduleError, setScheduleError] = useState(null);
   const [similarityError, setSimilarityError] = useState(null);
   const [similarityBusy, setSimilarityBusy] = useState(false);
+  // Minimal History-API routing: '/' shows the concert intro, '/dashboard'
+  // the application. Anything else falls back to the intro at '/'.
+  const [route, setRoute] = useState(() => pathnameToRoute(window.location.pathname));
+
+  useEffect(() => {
+    const raw = window.location.pathname;
+    const clean = (raw || '/').replace(/\/+$/, '') || '/';
+    if (clean !== raw) {
+      window.history.replaceState(null, '', clean);
+    } else if (pathnameToRoute(clean) === 'intro' && clean !== '/') {
+      window.history.replaceState(null, '', '/');
+    }
+    const onPopState = () => setRoute(pathnameToRoute(window.location.pathname));
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  const goDashboard = useCallback(() => {
+    window.history.pushState(null, '', '/dashboard');
+    setRoute('dashboard');
+  }, []);
+
   const analysisSeq = useRef(0);
   const planSeq = useRef(0);
   const similaritySeq = useRef(0);
@@ -600,6 +628,12 @@ export default function App() {
     return set;
   }, [currentClashes, actsById]);
 
+  // The intro renders instead of everything below; data loading still runs so
+  // the dashboard is ready the moment Get Started is clicked.
+  if (route === 'intro') {
+    return <AsciiConcertIntro onGetStarted={goDashboard} />;
+  }
+
   if (loading) {
     return (
       <div className="page">
@@ -632,7 +666,7 @@ export default function App() {
   const hasMoves = !applied && (analysis?.moves?.length ?? 0) > 0;
 
   return (
-    <div className="page">
+    <div className="page app-enter">
       <header className="masthead">
         <div className="masthead-brand">
           <h1 className="masthead-title">
@@ -823,7 +857,7 @@ export default function App() {
             {similarityError
               ? ' — this request failed, so no matrix is shown.'
               : similarity?.mode === 'demo'
-                ? ' (demo: hand-written profiles)'
+                ? ' (demo: deterministic curated dataset with hand-authored profiles, not live Qloo)'
                 : similarity?.mode === 'live'
                   ? ' (live: Qloo tag data)'
                   : similarity?.mode === 'unmatched'
@@ -885,7 +919,7 @@ export default function App() {
               type="button"
               onClick={loadDemo}
               disabled={loading}
-              title="Load the seeded demo festival (works without an API key)"
+              title="Load the seeded demo festival — a deterministic curated dataset of fictional artists with hand-authored taste profiles, not live Qloo output (works without an API key)"
             >
               Load demo festival
             </button>
@@ -900,7 +934,7 @@ export default function App() {
             </button>
             <span className="data-actions-note">
               {festival?.mode === 'demo'
-                ? 'Seeded demo dataset — fictional artists, no live Qloo data.'
+                ? 'Seeded demo dataset — deterministic and curated: fictional artists with hand-authored taste profiles, not live Qloo output.'
                 : festival?.mode === 'imported'
                   ? 'Imported lineup — artists carry the Qloo matches you confirmed above.'
                   : 'User-built lineup — artists are added via live Qloo search.'}
